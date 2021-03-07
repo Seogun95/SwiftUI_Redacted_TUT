@@ -58,6 +58,7 @@ struct ContentView: View {
                     .cornerRadius(10)
                     .foregroundColor(.white)
             }
+            .disabled(isLoading)
         }
         
         .onAppear { startNetworkCall() }
