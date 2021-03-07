@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isLoading = false
+    
     var body: some View {
         VStack{
             Image("mydog")
@@ -25,16 +28,19 @@ struct ContentView: View {
                 HStack {
                     Image(systemName: "envelope.circle.fill")
                         .renderingMode(.original)
+                        .unredacted()
                     Text("ksj083895@gmail.com")
                 }
                 HStack {
                     Image(systemName: "phone.circle.fill")
                         .renderingMode(.original)
+                        .unredacted()
                     Text("+82 10 1234 5678")
                 }
                 HStack {
                     Image(systemName: "network")
                         .foregroundColor(.yellow)
+                        .unredacted()
                     Text("seons-dev.tistory.com")
                 }
                 
@@ -44,6 +50,7 @@ struct ContentView: View {
             
             Button(action: {
                 print("프로필을 업데이트 합니다.")
+                
             }){
                 Text("Update Profile")
                     .frame(width: 200, height: 40)
@@ -51,6 +58,19 @@ struct ContentView: View {
                     .cornerRadius(10)
                     .foregroundColor(.white)
             }
+        }
+        
+        .onAppear { startNetworkCall() }
+        //isLoading이 true이면 .placeholder을 실행 그게아니면 empty
+        .redacted(reason: isLoading ? .placeholder : [])
+    }
+    
+    func startNetworkCall() {
+        isLoading = true
+        //3초 지연 후, 로딩이 완료됨
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            isLoading = false
+            
         }
     }
 }
